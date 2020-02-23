@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import IM from "./user.png"
+import ChangePassword from "./ChangePassword";
 
 export default class Profile extends Component{
     constructor(props){
@@ -11,7 +12,8 @@ export default class Profile extends Component{
             user_email: '',
             user_phone_number: '',
             user_role: '',
-            _id: ''
+            _id: '',
+            fine:''
         };
     }
     componentDidMount(){
@@ -31,6 +33,15 @@ export default class Profile extends Component{
                 .catch(function (error) {
                     console.log(error)
                 });
+            if(localStorage.userrole==='student'){
+                axios.post('/users/fine', {token: usertoken})
+                    .then(response=>{
+                        this.state.fine = response.data
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
+            }
         }
     }
 
@@ -71,13 +82,29 @@ export default class Profile extends Component{
                                 <div className="row">
                                     <div className={"col"}> Phone Number </div>
                                     <div className={"col"}> {this.state.user_phone_number} </div>
-                                </div>
-                                <br/>
+                                </div> <br/>
+                                {localStorage.userrole==='student'?
+                                    <div className="row">
+                                        <div className={"col"}> Fines to pay </div>
+                                        <div className={"col"}> {this.state.fine.toString()} </div>
+                                    </div> : ''
+                                }
+                                <br/><br/>
                             </b>
+                            <button data-toggle="modal" data-target="#changePassword" className={"btn btn-primary btn-block"} style={{"background": "#400000", "max-width": "300px"}}>
+                                Change Password
+                            </button>
                         </div>
                     </div>
                 </div>
                 <br/>
+                <div className="container">
+                    <div className="modal close" id="changePassword" data-dismiss="modal">
+                        <div>
+                            <ChangePassword/>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

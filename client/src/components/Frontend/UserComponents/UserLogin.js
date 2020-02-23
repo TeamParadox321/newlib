@@ -43,7 +43,7 @@ export default class UserLogin extends Component{
                 }
 
             }).catch(err=>{
-                alert('oh')
+                alert(err);
             });
         this.setState({
             user_id: '',

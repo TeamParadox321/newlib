@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import {Link} from "react-router-dom";
 
 const User = props => (
     <tr>
-        <td> {props.user.user_id} </td>
+        <td> <Link to={'/users/'+props.user._id}> {props.user.user_id}</Link> </td>
         <td> {props.user.user_name} </td>
         <td> {props.user.user_email} </td>
         <td> {props.user.user_phone_number} </td>
@@ -13,7 +14,6 @@ const User = props => (
             <button onClick={()=>{
                 remove(props.user._id);
             }} type="button" className="btn btn-outline-danger">Remove</button>
-
         </td>
     </tr>
 );

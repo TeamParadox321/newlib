@@ -123,9 +123,6 @@ export default class AllBooks extends Component{
                     </tbody>
                 </table>
                 <br />
-                <button onClick={()=>{
-                    alert(this.state.search);
-                }}>check</button>
             </div>
         );
     }

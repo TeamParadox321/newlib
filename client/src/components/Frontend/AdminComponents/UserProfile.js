@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import IM from "./user.png"
+import IM from "../DesignComponents/user.png"
 
 export default class UserProfile extends Component{
     constructor(props){
@@ -17,8 +17,8 @@ export default class UserProfile extends Component{
     componentDidMount(){
         var usertoken = localStorage.usertoken;
         if(usertoken!=null){
-            axios.post('/users/profile', {token: usertoken})
-                .then(response=>{
+            axios.get('/users/'+this.props.match.params.id)
+                .then(response => {
                     this.setState({
                         user_id: response.data.user_id,
                         user_name: response.data.user_name,
@@ -26,17 +26,16 @@ export default class UserProfile extends Component{
                         user_phone_number: response.data.user_phone_number,
                         user_role: response.data.user_role,
                         _id: response.data._id
-                    })
+                    });
                 })
                 .catch(function (error) {
-                    console.log(error)
+                    console.log(error);
                 });
         }
     }
 
 
     render(){
-
         return (
             <div className="container">
                 <br/><br/><br/><br/><br/>
@@ -74,6 +73,23 @@ export default class UserProfile extends Component{
                                 </div>
                                 <br/>
                             </b>
+                            {this.state.user_role === 'student' ?
+                                <button className={"btn btn-primary btn-block"}
+                                        style={{"height": "40px", "background": "#400000", "max-width": "400px"}}
+                                        onClick={() => {
+                                            axios.post('/users/delete_user', {
+                                                token: localStorage.usertoken,
+                                                user_id: this.state.user_id
+                                            })
+                                                .then(res => {
+                                                    alert(res.data);
+                                                }).catch(err => {
+                                                alert(err);
+                                            });
+                                        }}>
+                                    Delete
+                                </button> : ''
+                            }
                         </div>
                     </div>
                 </div>

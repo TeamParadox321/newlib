@@ -16,32 +16,6 @@ process.env.SECRET_KEY = "secret";
 app.use(cors());
 
 
-routes.route('/send_email').post(function (req, res) {
-
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'paradoxteam321@gmail.com',
-            pass: 'geeknoob321'
-        }
-    });
-
-    var mailOptions = {
-        from: 'paradoxteam321@gmail.com',
-        to: 'sandeepkushaj3@gmail.com',
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
-});
-
 routes.route('/').get(function (req, res) {
     User.find(function (err, users) {
         if(err){
@@ -50,6 +24,55 @@ routes.route('/').get(function (req, res) {
             res.json(users);
         }
     })
+});
+routes.route('/statistics').get(function (req, res) {
+    let obj = {
+        all_books : 0,
+        all_reserved_books: 0,
+        all_issued_books: 0,
+        all_categories: 0,
+        all_users : 0,
+        all_students : 0,
+        books : []
+    };
+    Book.aggregate( [{
+        $group : { _id : null, count : { $sum : 1 }}
+    }], function (err, r) {
+        if(err){
+            console.log(err);
+        }else{
+            obj.books = r;
+        }
+    });
+    Book.countDocuments(function (err, r) {
+        if(err){
+            console.log(err);
+        }else{
+            obj.all_books = r.count;
+        }
+    });
+    ReservedBooks.count(function (err, r) {
+        if(err){
+            console.log(err);
+        }else{
+            obj.all_reserved_books = r;
+        }
+    });
+    IssedBooks.count(function (err, r) {
+        if(err){
+            console.log(err);
+        }else{
+            obj.all_issued_books = r;
+        }
+    });
+    User.count(function (err, r) {
+        if(err){
+            console.log(err);
+        }else{
+            obj.all_users = r;
+        }
+    });
+    res.json(obj);
 });
 routes.route('/histories').post(function (req, res) {
     if(req.body.token!=null){
@@ -71,8 +94,31 @@ routes.route('/histories').post(function (req, res) {
             .catch(err=>{
                 res.send(err);
             });
-    };
+    }
 
+});
+
+routes.route('/fines').post(function (req, res) {
+    if(req.body.token!=null){
+        var decoded = jwt.verify(req.body.token, process.env.SECRET_KEY);
+        User.findOne({
+            user_id: decoded.user_id
+        })
+            .then(user=> {
+                if (user) {
+                    Fines.find(function (err, fines) {
+                        if(err){
+                            console.log(err);
+                        }else{
+                            res.json(fines);
+                        }
+                    })
+                }
+            })
+            .catch(err=>{
+                res.send(err);
+            });
+    }
 });
 
 routes.route('/history').post(function (req, res) {
@@ -122,7 +168,7 @@ routes.route('/approve').post(function (req, res) {
                             u.save();
                             let f = new Fines({
                                 user_id : u.user_id,
-                                fines : 0
+                                user_fines : 0
                             });
                             f.save();
                             res.send('Student was approved successfully');
@@ -250,7 +296,7 @@ routes.route('/add_student').post(function (req,res) {
                                 if(req.body.user_role==='student'){
                                     let f = new Fines({
                                         user_id : req.body.user_id,
-                                        fines : 0
+                                        user_fines : 0
                                     });
                                     f.save();
                                 }
@@ -335,9 +381,68 @@ routes.route('/user_profiles').post(function (req, res) {
             res.send(err);
         });
 });
-routes.route('/change_password').post(function (req, res) {
+routes.route('/fine').post(function (req, res) {
     var decoded = jwt.verify(req.body.token, process.env.SECRET_KEY);
     User.find({
+        user_id: decoded.user_id
+    })
+        .then(user => {
+            Fines.findOne({user_id : decoded.user_id})
+                .then(fine=>{
+                    res.send(fine.user_fines);
+                })
+                .catch(err=>{
+                    res.send(err);
+                });
+        })
+        .catch(err => {
+            res.send(err);
+        });
+});
+routes.route('/delete_book').post(function (req, res) {
+    var decoded = jwt.verify(req.body.token, process.env.SECRET_KEY);
+    User.findOne({
+        user_id: decoded.user_id
+    })
+        .then(user=> {
+            Book.deleteOne({
+                book_id:req.body.book_id
+            })
+                .then(book=>{
+                    res.send('Successfully deleted.');
+                })
+                .catch(err=>{
+                    res.send(err);
+                });
+        })
+        .catch(err=>{
+            res.send(err);
+        });
+});
+routes.route('/delete_user').post(function (req, res) {
+    var decoded = jwt.verify(req.body.token, process.env.SECRET_KEY);
+    User.findOne({
+        user_id: decoded.user_id
+    })
+        .then(user=> {
+            User.deleteOne({
+                user_id:req.body.user_id
+            })
+                .then(user=>{
+                    res.send('Successfully deleted.');
+                })
+                .catch(err=>{
+                    res.send(err);
+                });
+        })
+        .catch(err=>{
+            res.send(err);
+        });
+});
+
+routes.route('/change_password').post(function (req, res) {
+    var decoded = jwt.verify(req.body.token, process.env.SECRET_KEY);
+    User.findOne({
         user_id: decoded.user_id
     })
         .then(user=> {
@@ -349,15 +454,15 @@ routes.route('/change_password').post(function (req, res) {
                         user.user_password = hash;
                         user.save()
                             .then(u => {
-                                res.status(200).send('Password was changed successfully...');
+                                res.send('Password was changed successfully...');
                             })
                             .catch(e=>{
-                                res.status(400).send('Changing password was failed...');
+                                res.send('Changing password was failed...');
                             });
                     }
                 })
             }else{
-                res.send('You should login again');
+                res.send('Old password is incorrect.');
             }
         })
         .catch(err=>{
@@ -590,7 +695,7 @@ routes.route('/return').post(function (req, res) {
                             user_id: req.body.user_id
                         })
                             .then(f=>{
-                                f.fines = f.fines+fines;
+                                f.user_fines = f.user_fines+fines;
                             }).catch(err=>{
                                 console.log(err);
                             });
@@ -629,6 +734,12 @@ routes.route('/return').post(function (req, res) {
         }else{
             res.send('You have not signed into the system..')
         }
+    })
+});
+routes.route('/:id').get(function(req,res){
+    let id = req.params.id;
+    User.findById(id, function (err, user) {
+        res.json(user);
     })
 });
 

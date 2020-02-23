@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import {Link} from "react-router-dom";
 import AddStudent from "./AddStudent";
 
 const User = props => (
     <tr>
-        <td> {props.user.user_id} </td>
+        <td> <Link to={'/users/'+props.user._id}> {props.user.user_id}</Link> </td>
         <td> {props.user.user_name} </td>
         <td> {props.user.user_email} </td>
         <td> {props.user.user_phone_number} </td>
@@ -13,7 +14,23 @@ const User = props => (
 export default class Users extends Component{
     constructor(props){
         super(props);
-        this.state = {users: []};
+        this.onChangeSearch = this.onChangeSearch.bind(this);
+        this.onChangeUserRole = this.onChangeUserRole.bind(this);
+        this.state = {
+            users: [],
+            search : '',
+            user_role : 'all'
+        };
+    }
+    onChangeSearch(e){
+        this.setState({
+            search : e.target.value
+        })
+    }
+    onChangeUserRole(e){
+        this.setState({
+            user_role : e.target.value
+        });
     }
     componentDidMount(){
         axios.get('/users/')
@@ -33,9 +50,29 @@ export default class Users extends Component{
                 console.log(error)
             });
     }
-    studentList(){
+    studentList(props, cat){
         return this.state.users.map(function (currentUser, i) {
-            return <User user={currentUser} key={i} />
+            if(props.trim()!==''){
+                if(currentUser.user_id.toLowerCase().includes(props.toLowerCase())||currentUser.user_name.toLowerCase().includes(props.toLowerCase())
+                ||currentUser.user_email.toLowerCase().includes(props.toLowerCase())||currentUser.user_phone_number.toLowerCase().includes(props.toLowerCase())){
+                    if(cat==='all'){
+                        return <User user={currentUser} key={i} />
+                    }else{
+                        if(currentUser.user_role===cat){
+                            return <User user={currentUser} key={i} />
+                        }
+                    }
+                }
+            }else{
+                if(cat==='all'){
+                    return <User user={currentUser} key={i} />
+                }else{
+                    if(currentUser.user_role===cat){
+                        return <User user={currentUser} key={i} />
+                    }
+                }
+            }
+
         })
     }
     render(){
@@ -44,10 +81,10 @@ export default class Users extends Component{
                 <center><b><h2 className={"p-3 my-3 text-dark"} color={"red"}>Users</h2></b></center>
                 <form style={{"display":"flex"}}>
                     <button style={{"max-height":"40px","min-width": "150px"}} type="button" className="btn btn-outline-success" data-toggle="modal" data-target="#addStudent">Add Student</button>
-                    <select name="users" className="custom-select form-control">
-                        <option selected>All</option>
-                        <option value="volvo">Students</option>
-                        <option value="fiat">Librarians</option>
+                    <select name="users" className="custom-select form-control" onChange={this.onChangeUserRole}>
+                        <option value={"all"}>All</option>
+                        <option value="student">Students</option>
+                        <option value="librarian">Librarians</option>
                     </select>
                     <input className="form-control" id="myInput" type="text" placeholder="Search.." value={this.state.search} onChange={this.onChangeSearch}/>
                 </form> <br/>
@@ -61,7 +98,7 @@ export default class Users extends Component{
                     </tr>
                     </thead>
                     <tbody>
-                    {this.studentList()}
+                    {this.studentList(this.state.search,this.state.user_role)}
                     </tbody>
                 </table>
                 <br />

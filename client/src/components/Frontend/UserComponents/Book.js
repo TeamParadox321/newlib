@@ -39,7 +39,8 @@ export default class Profile extends Component{
                     book_isbn: response.data.book_isbn,
                     book_edition: response.data.book_edition,
                     book_year: response.data.book_year,
-                    book_availability: response.data.book_availability.toString()
+                    book_availability: response.data.book_availability?'YES':'NO',
+                    obj : {}
                 });
             })
             .catch(function (error) {
@@ -133,11 +134,23 @@ export default class Profile extends Component{
                                         }}>Reserve</button>
                                     </center> : ''}
                                 {(localStorage.userrole==='librarian') ?
-                                    <center>
-                                        <button data-toggle="modal" data-target="#update" className={"btn btn-primary btn-block"} style={{"background": "#400000", "max-width": "300px"}}>
-                                            Edit
-                                        </button>
-                                    </center> : ''}
+                                    <wrapper>
+                                            <button data-toggle="modal" data-target="#update" className={"btn btn-primary btn-block"} style={{"background": "#400000","height":"40px", "max-width": "400px"}}>
+                                                Edit
+                                            </button>
+                                            <button className={"btn btn-primary btn-block"} style={{"height":"40px","background": "#400000", "max-width": "400px"}}
+                                            onClick={()=>{
+                                                axios.post('/users/delete_book', {token : localStorage.usertoken, book_id: this.state.book_id})
+                                                    .then(res=>{
+                                                        alert(res.data);
+                                                    }).catch(err=>{
+                                                    alert(err);
+                                                });
+                                            }}>
+                                                Delete
+                                            </button>
+                                    </wrapper> : ''
+                                }
                             </b>
                         </div>
                     </div>
@@ -146,7 +159,7 @@ export default class Profile extends Component{
                 <div className="container">
                     <div className="modal close" id="update" data-dismiss="modal">
                         <div>
-                            <UpdateBook id={this.state._id}/>
+                            <UpdateBook id={this.props.match.params.id}/>
                         </div>
                     </div>
                 </div>

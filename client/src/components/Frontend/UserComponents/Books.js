@@ -30,10 +30,6 @@ function Books() {
                         <p> History of borrowing and returning books by you.</p>
                     </div>
                 </Link>
-                <div className="container p-3 my-3 bg-primary text-white">
-                    <h2 className={"text-light"}>Fines</h2>
-                    <p>This container has a blue background color and a white text, and some extra padding and margins.</p>
-                </div>
                 <br/>
             </div>: localStorage.userrole==='librarian' ?
                 <wrapper>
@@ -55,6 +51,11 @@ function Books() {
                     <Link to={"/histories"}>
                         <div className="container p-3 my-3 bg-primary text-white">
                             <h2 className={"text-light"}>Histories</h2>
+                        </div>
+                    </Link>
+                    <Link to={"/all_fines"}>
+                        <div className="container p-3 my-3 bg-primary text-white">
+                            <h2 className={"text-light"}>Fines</h2>
                         </div>
                     </Link>
                 </wrapper>

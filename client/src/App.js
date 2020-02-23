@@ -22,12 +22,15 @@ import Histories from "./components/Frontend/AdminComponents/Histories";
 import NewStudents from "./components/Frontend/AdminComponents/NewStudents";
 import History from "./components/Frontend/UserComponents/History";
 import AboutUs from './components/Frontend/DesignComponents/AboutUs';
+import UserProfile from "./components/Frontend/AdminComponents/UserProfile";
+import Fines from "./components/Frontend/AdminComponents/Fines";
 
 class App extends Component{
     constructor(props){
         super(props);
         this.nullState = this.nullState.bind(this);
         this.fullState = this.fullState.bind(this);
+        this.hideSignIn = this.hideSignIn.bind(this);
         if(localStorage.usertoken!=null) {
             axios.post('/users/check', {
                 token: localStorage.usertoken
@@ -74,6 +77,10 @@ class App extends Component{
             id: localStorage.userid,
             role: localStorage.userrole
         })
+    }
+
+    hideSignIn(){
+        ('#signIn').modal("hide");
     }
     render() {
         return (
@@ -158,6 +165,8 @@ class App extends Component{
                                 <Route path={"/histories"} component={Histories}/>
                                 <Route path={"/new_students"} component={NewStudents}/>
                                 <Route path={"/history"} component={History}/>
+                                <Route path={"/users/:id"} component={UserProfile}/>
+                                <Route path={"/all_fines"} component={Fines}/>
                             </wrapper> : '' }
                         </Switch>
                     </section>
@@ -175,7 +184,7 @@ class App extends Component{
                 <div className="container">
                     <div className="modal close" id="signIn" data-dismiss="modal">
                         <div>
-                            <UserLogin fs={this.fullState}/>
+                            <UserLogin fs={this.fullState} hide={this.hideSignIn}/>
                         </div>
                     </div>
                 </div>
