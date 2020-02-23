@@ -145,6 +145,7 @@ export default class AddBooks extends Component{
                         <div className="form-group">
                             <p className={"txt"}>Category :</p>
                             <select className="custom-select form-control" onChange={this.onChangeBookCategory}>
+                                <option value={''}> Category </option>
                                 {this.categoryList()}
                             </select>
                         </div>
@@ -162,9 +163,6 @@ export default class AddBooks extends Component{
                             <p className={"txt"}> &nbsp; </p>
                             <button type="submit" className={"btn btn-primary btn-block"} style={{"background": "#400000"}}>Add Book</button>
                         </div>
-                        <button onClick={()=>{
-                            alert(this.state.categories[0]);
-                        }}> </button>
                     </div>
                 </form>
             </div>

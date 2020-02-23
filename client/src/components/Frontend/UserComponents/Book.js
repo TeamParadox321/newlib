@@ -142,7 +142,7 @@ export default class Profile extends Component{
                         </div>
                     </div>
                 </div>
-                <br/><br/><br/>
+                <br/>
                 <div className="container">
                     <div className="modal close" id="update" data-dismiss="modal">
                         <div>
