@@ -114,6 +114,7 @@ export default class AddBooks extends Component{
     render() {
         return(
             <div className="login-form">
+
                 <div className={"frm"}>
                     <button type="button" className="close " data-dismiss="modal" style={{"padding-right": "10px", "color": "white"}}><span aria-hidden="true">&times;</span></button>
                     <center><h2 className="text-light"> Add Book </h2></center>
