@@ -104,6 +104,7 @@ export default class InverntoryBooks extends Component{
         return (
             <div className="container" style={{"padding-top":"10px"}}>
                 <center><b><h2 className={"p-3 my-3 text-dark"} color={"red"}>All Books</h2></b></center>
+                <p> All Books Count : {this.state.books.length}</p>
                 <form className={"row"}>
                     <button style={{"max-height":"40px", "min-width": "150px"}} type="button" className="btn btn-outline-success col-md" data-toggle="modal" data-target="#addBook">Add Books</button>
                     <button style={{"max-height":"40px", "min-width": "150px"}} type="button" className="btn btn-outline-success col-md" data-toggle="modal" data-target="#addCategory">Add Category</button>

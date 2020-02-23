@@ -101,6 +101,7 @@ export default class AllBooks extends Component{
         return (
             <div className="container" style={{"padding-top":"0px"}}>
                 <center><b><h2 className={"p-3 my-3 text-dark"} color={"red"}>All Books</h2></b></center>
+                <p> All Books Count : {this.state.books.length}</p>
                 <form style={{"display":"flex"}}>
                     <select className="custom-select form-control" onChange={this.onChangeCategory}>
                         <option selected value={'all'}>Category</option>

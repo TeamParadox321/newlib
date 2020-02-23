@@ -429,6 +429,9 @@ routes.route('/delete_user').post(function (req, res) {
                 user_id:req.body.user_id
             })
                 .then(user=>{
+                    Fines.deleteOne({
+                        user_id : req.body.user_id
+                    }).then().catch();
                     res.send('Successfully deleted.');
                 })
                 .catch(err=>{

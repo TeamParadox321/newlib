@@ -109,6 +109,7 @@ export default class AllReservedBooks extends Component{
         return (
             <div className="container" style={{"padding-top":"10px"}}>
                 <center><b><h2 className={"p-3 my-3 text-dark"} color={"red"}>All Reserved Books</h2></b></center>
+                <p> All Reserved Books Count : {this.state.books.length}</p>
                 <form style={{"display":"flex"}}>
                     <input className="form-control" id="myInput" type="text" placeholder="Search.." value={this.state.search} onChange={this.onChangeSearch}/>
                 </form> <br/>

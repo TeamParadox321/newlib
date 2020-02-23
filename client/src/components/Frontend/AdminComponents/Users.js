@@ -79,6 +79,7 @@ export default class Users extends Component{
         return (
             <div className="container" style={{"padding-top":"10px"}}>
                 <center><b><h2 className={"p-3 my-3 text-dark"} color={"red"}>Users</h2></b></center>
+                <p> All Users Count : {this.state.users.length}</p>
                 <form style={{"display":"flex"}}>
                     <button style={{"max-height":"40px","min-width": "150px"}} type="button" className="btn btn-outline-success" data-toggle="modal" data-target="#addStudent">Add Student</button>
                     <select name="users" className="custom-select form-control" onChange={this.onChangeUserRole}>
