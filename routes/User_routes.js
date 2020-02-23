@@ -12,7 +12,7 @@ const Fines = require('../models/Fines_model');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
-process.env.SECRET_KEY = "secrret";
+process.env.SECRET_KEY = "secret";
 app.use(cors());
 
 
