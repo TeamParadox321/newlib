@@ -40,7 +40,7 @@ export default class Users extends Component{
     }
     render(){
         return (
-            <div className="container" style={{"padding-top":"100px"}}>
+            <div className="container" style={{"padding-top":"10px"}}>
                 <center><b><h2 className={"p-3 my-3 text-dark"} color={"red"}>Users</h2></b></center>
                 <form style={{"display":"flex"}}>
                     <button style={{"max-height":"40px","min-width": "150px"}} type="button" className="btn btn-outline-success" data-toggle="modal" data-target="#addStudent">Add Student</button>

@@ -211,7 +211,7 @@ routes.route('/user_login').post(function (req,res) {
                         user_id: user.user_id
                     };
                     let token = jwt.sign(payload, process.env.SECRET_KEY, {
-                        expiresIn: 1440
+                        expiresIn: 144000
                     });
                     res.send({token: token, role: user.user_role, id: user.user_id})
                 } else {
@@ -322,6 +322,47 @@ routes.route('/borrowed_books').post(function (req, res) {
             res.json(books)
         }
     });
+});
+routes.route('/user_profiles').post(function (req, res) {
+    var decoded = jwt.verify(req.body.token, process.env.SECRET_KEY);
+    User.find({
+        user_id: decoded.user_id
+    })
+        .then(user => {
+
+        })
+        .catch(err => {
+            res.send(err);
+        });
+});
+routes.route('/change_password').post(function (req, res) {
+    var decoded = jwt.verify(req.body.token, process.env.SECRET_KEY);
+    User.find({
+        user_id: decoded.user_id
+    })
+        .then(user=> {
+            if(bcrypt.compareSync(req.body.user_password, user.user_password)){
+                bcrypt.hash(req.body.new_user_password, 10, (err, hash) => {
+                    if(err){
+                        res.send(err);
+                    }else{
+                        user.user_password = hash;
+                        user.save()
+                            .then(u => {
+                                res.status(200).send('Password was changed successfully...');
+                            })
+                            .catch(e=>{
+                                res.status(400).send('Changing password was failed...');
+                            });
+                    }
+                })
+            }else{
+                res.send('You should login again');
+            }
+        })
+        .catch(err=>{
+            res.send(err);
+        })
 });
 
 routes.route('/add_category').post(function (req, res) {
@@ -553,7 +594,7 @@ routes.route('/return').post(function (req, res) {
                             }).catch(err=>{
                                 console.log(err);
                             });
-                        Histories.findOne({
+                        History.findOne({
                             user_id : his.user_id,
                             book_id : his.book_id,
                             borrowed_date: his.borrowed_date

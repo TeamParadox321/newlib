@@ -5,8 +5,6 @@ function AboutUs() {
         <dev>
         <br/>
         <br/>
-        <br/>
-        <br/>
         <center><h1>Team Paradox</h1></center>
             <dev>
                 <br/><br/>
@@ -33,7 +31,7 @@ function AboutUs() {
                             <td>J.M.C.M BANDARA</td>
                         </tr>
                         <tr>
-                            <td>CT/2016/020</td>
+                            <td>ET/2016/020</td>
                             <td>D.N.L DUNUSINGHE</td>
                         </tr>
                     </table>

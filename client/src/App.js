@@ -80,7 +80,7 @@ class App extends Component{
             <dev>
                 <Router>
                     <header>
-                        <nav style={{"background": "#400000", "min-height": "70px", "min-width": "390px"}} className="navbar navbar-expand-md navbar-dark fixed-top">
+                        <nav style={{"background": "#400000", "min-height": "70px", "min-width": "390px"}} className="navbar navbar-expand-md navbar-dark">
 
                             <img alt={"Logo UOK"} src={IM} className={"navbar-brand"} width={"48px"} height={"55px"}/>
                             <Link className="navbar-brand" to={"/"}>Library Management System</Link>
@@ -161,7 +161,7 @@ class App extends Component{
                             </wrapper> : '' }
                         </Switch>
                     </section>
-                    <footer style={{"background":"#400000", "height" : "50px", "padding-top": "15px", "min-width": "390px"}} className="text-light fixed-bottom">
+                    <footer style={{"background":"#400000", "height" : "50px", "padding-top": "15px", "min-width": "390px"}} className="text-light">
                         <center><h6 className={"footer-text"}>@ Team Paradox</h6></center>
                     </footer>
                 </Router>

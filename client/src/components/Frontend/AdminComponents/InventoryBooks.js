@@ -14,6 +14,7 @@ const Book = props => (
         <td> {props.book.book_title} </td>
         <td> {props.book.book_category} </td>
         <td> {props.book.book_author} </td>
+        <td> {props.book.book_availability?'YES':'NO'} </td>
     </tr>
 );
 export default class InverntoryBooks extends Component{
@@ -101,7 +102,7 @@ export default class InverntoryBooks extends Component{
     }
     render(){
         return (
-            <div className="container" style={{"padding-top":"100px"}}>
+            <div className="container" style={{"padding-top":"10px"}}>
                 <center><b><h2 className={"p-3 my-3 text-dark"} color={"red"}>All Books</h2></b></center>
                 <form className={"row"}>
                     <button style={{"max-height":"40px", "min-width": "150px"}} type="button" className="btn btn-outline-success col-md" data-toggle="modal" data-target="#addBook">Add Books</button>
@@ -120,6 +121,7 @@ export default class InverntoryBooks extends Component{
                         <th>Book Title</th>
                         <th>Category</th>
                         <th>Author</th>
+                        <th>Availability</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -77,7 +77,8 @@ export default class Histories extends Component{
     }
     render(){
         return (
-            <div className="container" style={{"padding-top":"100px"}}>
+            <div className="container" style={{"padding-top":"0px"}}>
+                <br/>
                 <center><b><h2 className={"p-3 my-3 text-dark"} color={"red"}>History</h2></b></center>
                 <form style={{"display": "flex"}}>
                     <input className="form-control" id="myInput" type="text" placeholder="Search.."
@@ -99,8 +100,6 @@ export default class Histories extends Component{
                     {this.bookList(this.state.search)}
                     </tbody>
                 </table>
-                <br />
-                <br />
                 <br />
             </div>
         );

@@ -39,7 +39,7 @@ export default class Profile extends Component{
 
         return (
             <div className="container">
-                <br/><br/><br/><br/><br/>
+                <br/><br/><br/>
                 <div className="container-fluid">
                     <center><h1>User Profile</h1></center>
                     <br/><br/>
@@ -77,7 +77,7 @@ export default class Profile extends Component{
                         </div>
                     </div>
                 </div>
-                <br/><br/><br/>
+                <br/>
             </div>
         )
     }

@@ -70,7 +70,7 @@ export default class ReservedBooks extends Component{
     }
     render(){
         return (
-            <div className="container" style={{"padding-top":"100px"}}>
+            <div className="container" style={{"padding-top":"10px"}}>
                 <center><b><h2 className={"p-3 my-3 text-dark"} color={"red"}>Recently Reserved Books</h2></b></center>
                 <br/>
                 <table id="example" className="table bg-white table-striped table-bordered border-0 table-hover">

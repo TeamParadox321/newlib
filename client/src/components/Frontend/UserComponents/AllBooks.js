@@ -99,7 +99,7 @@ export default class AllBooks extends Component{
     }
     render(){
         return (
-            <div className="container" style={{"padding-top":"100px"}}>
+            <div className="container" style={{"padding-top":"0px"}}>
                 <center><b><h2 className={"p-3 my-3 text-dark"} color={"red"}>All Books</h2></b></center>
                 <form style={{"display":"flex"}}>
                     <select className="custom-select form-control" onChange={this.onChangeCategory}>
@@ -122,16 +122,10 @@ export default class AllBooks extends Component{
                     {this.bookList(this.state.search, this.state.category)}
                     </tbody>
                 </table>
-                <button onClick={()=>{
-                    axios.post('/users/send_email', {token: localStorage.usertoken})
-                        .then(response=>{
-                            alert('ok');
-                        })
-                        .catch(function (error) {
-                            console.log(error)
-                        });
-                }}>abc</button>
                 <br />
+                <button onClick={()=>{
+                    alert(this.state.search);
+                }}>check</button>
             </div>
         );
     }

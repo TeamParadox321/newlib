@@ -68,7 +68,7 @@ export default class Profile extends Component{
     render(){
         return (
             <div className="container">
-                <br/><br/><br/><br/><br/>
+                <br/><br/>
                 <div className="container-fluid">
                     <center><h1>Book Profile</h1></center>
                     <br/><br/>
@@ -115,7 +115,7 @@ export default class Profile extends Component{
                                 <br/>
                                 <div className="row">
                                     <div className={"col"}> Availability </div>
-                                    <div className={"col"}> {this.state.book_availability} </div>
+                                    <div className={"col"}> {this.state.book_availability?'YES':'NO'} </div>
                                 </div>
                                 <br/>
                                 {(localStorage.userrole==='student'&&this.state.book_availability==='true') ?

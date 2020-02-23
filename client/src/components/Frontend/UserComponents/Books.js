@@ -4,7 +4,7 @@ import AllBooks from "./AllBooks";
 function Books() {
     return (
         <div>
-            <div style={{"padding-top": "100", "padding-bottom": "70px"}}/>
+            <div style={{"padding-top": "30px", "padding-bottom": "30px"}}/>
             {localStorage.userrole==='student' ? <div>
                 <Link to={"/all_books"}>
                     <div className="container bg-primary p-3 my-3 text-white">
