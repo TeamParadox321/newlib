@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@version/react-router-v3": "^1.0.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bcrypt": "^3.0.7",
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.1",
